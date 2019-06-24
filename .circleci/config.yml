@@ -1,13 +1,38 @@
 version: 2.1
 
 orbs:
-  welcome: davidkelley/hello-user@dev:0.0.4
+  welcome: davidkelley/hello-user@dev:0.0.6
+
+jobs:
+
+  create-text-file:
+    docker:
+      - image: ubuntu:14.04
+    steps:
+      - checkout
+      - run:
+          command: echo "HELLO BOB" > /tmp/test.txt
+      - persist_to_workspace:
+          root: /tmp
+          paths:
+            - test.txt
+
+  say-hello:
+    executor: welcome/cloudformation
+    steps:
+      - attach_workspace:
+          at: /tmp/test-workspace
+      - welcome/hello:
+          username: "Bobby"
+          cwd: /tmp/test-workspace
 
 # Orchestrate or schedule a set of jobs, see https://circleci.com/docs/2.0/workflows/
 workflows:
-  # Name the workflow "Welcome"
-  Welcome:
-    # Run the welcome/run job in its own container
+  getting-started:
     jobs:
-      - welcome/run:
-          username: David
+      - create-text-file
+      - say-hello:
+          requires:
+            - create-text-file
+
+        
