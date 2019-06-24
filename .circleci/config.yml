@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  welcome: davidkelley/hello-user@dev:0.0.1
+  welcome: davidkelley/hello-user@dev:0.0.4
 
 # Orchestrate or schedule a set of jobs, see https://circleci.com/docs/2.0/workflows/
 workflows:
