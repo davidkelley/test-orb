@@ -32,6 +32,6 @@ workflows:
           template_file: template.yml
           input_json: /tmp/test-workspace/skeleton.json
           requires:
-            - create-text-file
+            - build-and-test
 
         
