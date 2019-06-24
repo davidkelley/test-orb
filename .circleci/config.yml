@@ -1,10 +1,14 @@
 version: 2.1
 
 orbs:
-  my-orb: davidkelley/hello-user@dev
+  my-orb: davidkelley/hello-user@dev:first
 
 jobs:
-  myjob:
+  build:
+    docker:
+      - image: circleci/ruby:2.4.1
     steps:
+      - checkout
+      - run: echo "A first hello"
       - my-orb/hello:
-          username: "David"
+          username: David
