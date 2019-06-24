@@ -1,0 +1,15 @@
+{
+  "Parameters": [
+
+  ], 
+  "Capabilities": [
+    "CAPABILITY_NAMED_IAM",
+    "CAPABILITY_AUTO_EXPAND"
+  ], 
+  "Tags": [
+    {
+      "Key": "Test", 
+      "Value": "test"
+    }
+  ]
+}

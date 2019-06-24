@@ -1,37 +1,36 @@
 version: 2.1
 
 orbs:
-  welcome: davidkelley/hello-user@dev:0.0.6
+  cloudformation: davidkelley/hello-user@dev:0.0.6
 
 jobs:
 
-  create-text-file:
+  build-and-test:
     docker:
-      - image: circleci/node:9.6.1
+      - image: circleci/node:12.0.0
     steps:
       - checkout
       - run:
-          command: echo "HELLO BOB" > /tmp/test.txt
+          command: npm i
+      - run:
+          command: npm test
+      - run:
+          command: cp skeleton.json /tmp/skeleton.json
       - persist_to_workspace:
           root: /tmp
           paths:
-            - test.txt
-
-  say-hello:
-    executor: welcome/cloudformation
-    steps:
-      - attach_workspace:
-          at: /tmp/test-workspace
-      - welcome/hello:
-          username: "Bobby"
-          cwd: /tmp/test-workspace
+            - "*.json"
 
 # Orchestrate or schedule a set of jobs, see https://circleci.com/docs/2.0/workflows/
 workflows:
   getting-started:
     jobs:
-      - create-text-file
-      - say-hello:
+      - build-and-test
+      - cloudformation/deploy:
+          workspace: /tmp/test-workspace
+          stack_name: davidk-test-stack
+          template_file: template.yml
+          input_json: /tmp/test-workspace/skeleton.json
           requires:
             - create-text-file
 
