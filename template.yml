@@ -11,4 +11,4 @@ Outputs:
 
   TopicArn:
     Description: ARN of SNS Topic
-    Value: !GetAtt Topic.Arn
+    Value: !Ref Topic
