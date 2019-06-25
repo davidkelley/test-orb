@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  cloudformation: davidkelley/hello-user@dev:0.0.13
+  cloudformation: davidkelley/hello-user@dev:0.0.15
 
 jobs:
 
@@ -21,6 +21,17 @@ jobs:
           paths:
             - "*.json"
 
+  print-outputs:
+    docker:
+      - image: circleci/node:12.0.0
+    steps:
+      - checkout
+      - attach_workspace:
+          at: /tmp/test-workspace
+      - run:
+          command: cat /tmp/test-workspace/outputs.json
+      
+
 # Orchestrate or schedule a set of jobs, see https://circleci.com/docs/2.0/workflows/
 workflows:
   getting-started:
@@ -31,7 +42,11 @@ workflows:
           stack_name: davidk-test-stack
           template_file: template.yml
           input_json: /tmp/test-workspace/skeleton.json
+          output_json: /tmp/test-workspace/outputs.json
           requires:
             - build-and-test
+      - print-outputs
+          requires:
+            - cloudformation/deploy
 
         
