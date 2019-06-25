@@ -45,7 +45,7 @@ workflows:
           output_json: /tmp/test-workspace/outputs.json
           requires:
             - build-and-test
-      - print-outputs
+      - print-outputs:
           requires:
             - cloudformation/deploy
 
