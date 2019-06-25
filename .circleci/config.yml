@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  cloudformation: davidkelley/hello-user@dev:0.0.9
+  cloudformation: davidkelley/hello-user@dev:0.0.10
 
 jobs:
 
