@@ -27,16 +27,16 @@ workflows:
     jobs:
       - build
       - cloudformation/deploy:
-          stack_name: davidk-test-stack
+          stack-name: davidk-test-stack
           workspace: /tmp/test-workspace
-          template_file: template.yml
-          input_json: /tmp/test-workspace/parameters.json
-          output_json: /tmp/test-workspace/outputs.json
-          before_deploy:
+          template-file: template.yml
+          input-json: /tmp/test-workspace/parameters.json
+          output-json: /tmp/test-workspace/outputs.json
+          before-deploy:
             - cloudformation/merge-parameters:
-                source_json: keya.json keyb.json
-                target_json: /tmp/test-workspace/skeleton.json
-                destination_json: /tmp/test-workspace/parameters.json
+                source-json: keya.json keyb.json
+                target-json: /tmp/test-workspace/skeleton.json
+                destination-json: /tmp/test-workspace/parameters.json
           requires:
             - build
 
