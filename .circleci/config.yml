@@ -5,7 +5,7 @@ orbs:
 
 jobs:
 
-  build-and-test:
+  build:
     docker:
       - image: circleci/node:12.0.0
     steps:
@@ -25,10 +25,7 @@ jobs:
 workflows:
   getting-started:
     jobs:
-      - build-and-test  
-      # - set-parameters:
-      #     requires:
-      #       - build-and-test
+      - build
       - cloudformation/deploy:
           stack_name: davidk-test-stack
           workspace: /tmp/test-workspace
@@ -37,10 +34,14 @@ workflows:
           output_json: /tmp/test-workspace/outputs.json
           before_deploy:
             - cloudformation/merge-parameters:
-                source_json: keys.json
+                source_json: keya.json
                 target_json: /tmp/test-workspace/skeleton.json
                 destination_json: /tmp/test-workspace/parameters.json
+            - cloudformation/merge-parameters:
+                source_json: keyb.json
+                target_json: /tmp/test-workspace/parameters.json
+                destination_json: /tmp/test-workspace/parameters.json
           requires:
-            - build-and-test
+            - build
 
         
