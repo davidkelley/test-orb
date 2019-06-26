@@ -26,11 +26,16 @@ jobs:
     steps:
       - checkout
       - attach_workspace:
-          at: /tmp/wspace
+          at: /tmp/in
+      - run: mkdir /tmp/out
       - cloudformation/merge-parameters:
           source_json: keys.json
-          target_json: /tmp/wspace/skeleton.json
-          destination_json: /tmp/wspace/parameters.json
+          target_json: /tmp/in/skeleton.json
+          destination_json: /tmp/out/parameters.json
+      - persist_to_workspace:
+          root: /tmp/out
+          paths:
+            - "*.json"
 
 # Orchestrate or schedule a set of jobs, see https://circleci.com/docs/2.0/workflows/
 workflows:
