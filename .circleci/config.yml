@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  cloudformation: davidkelley/hello-user@dev:0.0.15
+  cloudformation: davidkelley/hello-user@dev:0.1.0
 
 jobs:
 
@@ -21,32 +21,31 @@ jobs:
           paths:
             - "*.json"
 
-  print-outputs:
-    docker:
-      - image: circleci/node:12.0.0
+  set-parameters:
+    executor: cloudformation/cloudformation
     steps:
       - checkout
       - attach_workspace:
-          at: /tmp/test-workspace
-      - run:
-          command: cat /tmp/test-workspace/outputs.json
-      
+          at: /tmp/wspace
+      - cloudformation/merge-parameters:
+          source_json: keys.json
+          target_json: /tmp/wspace/skeleton.json
+          destination_json: /tmp/wspace/parameters.json
 
 # Orchestrate or schedule a set of jobs, see https://circleci.com/docs/2.0/workflows/
 workflows:
   getting-started:
     jobs:
-      - build-and-test
+      - build-and-test  
+      - set-parameters
       - cloudformation/deploy:
-          workspace: /tmp/test-workspace
           stack_name: davidk-test-stack
+          workspace: /tmp/test-workspace
           template_file: template.yml
-          input_json: /tmp/test-workspace/skeleton.json
+          input_json: /tmp/test-workspace/parameters.json
           output_json: /tmp/test-workspace/outputs.json
           requires:
+            - set-parameters
             - build-and-test
-      - print-outputs:
-          requires:
-            - cloudformation/deploy
 
         
