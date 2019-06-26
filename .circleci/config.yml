@@ -37,7 +37,9 @@ workflows:
   getting-started:
     jobs:
       - build-and-test  
-      - set-parameters
+      - set-parameters:
+          requires:
+            - build-and-test
       - cloudformation/deploy:
           stack_name: davidk-test-stack
           workspace: /tmp/test-workspace
@@ -46,6 +48,5 @@ workflows:
           output_json: /tmp/test-workspace/outputs.json
           requires:
             - set-parameters
-            - build-and-test
 
         
