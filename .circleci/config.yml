@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  cloudformation: davidkelley/hello-user@dev:0.2.0
+  cloudformation: davidkelley/hello-user@dev:0.2.1
 
 jobs:
 
@@ -34,7 +34,7 @@ workflows:
           output_json: /tmp/test-workspace/outputs.json
           before_deploy:
             - cloudformation/merge-parameters:
-                source_json: keya.json,keyb.json
+                source_json: keya.json keyb.json
                 target_json: /tmp/test-workspace/skeleton.json
                 destination_json: /tmp/test-workspace/parameters.json
           requires:
